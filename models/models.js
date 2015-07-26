@@ -37,7 +37,9 @@ Quiz.sync().then(function(){
     if(count==0){
       Quiz.create({ pregunta:  'Capital de Italia',
                     respuesta: 'Roma'})
-      .then(function(){console.log('Base de datos inicializada')});
+      .then(Quiz.create({ pregunta:  'Capital de Portugal',
+                    respuesta: 'Lisboa'})
+      .then(function(){console.log('Base de datos inicializada')}));
     }
   });
 });
