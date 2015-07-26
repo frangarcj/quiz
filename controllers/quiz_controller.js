@@ -10,7 +10,11 @@ exports.load = function(req,res,next,quizId){
 }
 
 exports.index = function(req,res){
-  models.Quiz.findAll().then(function(quizes){
+  var search = req.query.search?'%'+req.query.search+'%':'%';
+  search = search.replace(' ','%');
+  console.log("bu"+search);
+
+  models.Quiz.findAll({where: ["pregunta like ?", search]}).then(function(quizes){
     res.render('quizes/index',{quizes: quizes});
   }).catch(function(error){next(error);});
 }
