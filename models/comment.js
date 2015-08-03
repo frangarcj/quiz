@@ -3,5 +3,9 @@ module.exports= function(sequelize, Datatypes){
       {texto:  {
         type: Datatypes.STRING,
         validate: { notEmpty: {msg: "-> Falta Pregunta!"}}
+      },
+      publicado:  {
+        type: Datatypes.BOOLEAN,
+        defaultValue: false
       }});
 }

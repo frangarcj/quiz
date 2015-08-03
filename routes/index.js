@@ -12,6 +12,7 @@ router.get('/', function(req, res) {
 
 /* AUTOLOAD */
 router.param('quizId', quiz_controller.load);
+router.param('commentId', comment_controller.load);
 
 router.get('/login',  session_controller.new);     // formulario login
 router.post('/login', session_controller.create);  // crear sesión
@@ -28,6 +29,7 @@ router.delete('/quizes/:quizId(\\d+)',session_controller.loginRequired, quiz_con
 
 router.get('/quizes/:quizId(\\d+)/comments/new', comment_controller.new);
 router.post('/quizes/:quizId(\\d+)/comments', comment_controller.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', session_controller.loginRequired, comment_controller.publish);
 
 
 
