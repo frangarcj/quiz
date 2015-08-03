@@ -30,9 +30,16 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var quiz_path = path.join(__dirname,'quiz');
 var Quiz = sequelize.import(quiz_path);
 
-exports.Quiz = Quiz;
+var comment_path = path.join(__dirname,'comment');
+var Comment = sequelize.import(comment_path);
 
-Quiz.sync().then(function(){
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+exports.Quiz = Quiz;
+exports.Comment = Comment;
+
+sequelize.sync().then(function(){
   Quiz.count().then(function(count){
     if(count==0){
       Quiz.create({ pregunta:  'Capital de Italia',
