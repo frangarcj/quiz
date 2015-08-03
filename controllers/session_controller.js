@@ -42,3 +42,33 @@ exports.destroy = function(req, res) {
     delete req.session.user;
     res.redirect(req.session.redir.toString()); // redirect a path anterior a login
 };
+
+exports.autologout = function(req, res, next) {
+     var segundos = 120;
+     var miliSegundos = segundos*1000;
+
+     //Usuario logado
+     if(req.session.user){
+         //Si no existe marca de tiempo inicial
+         if(!req.session.tiempo){
+             req.session.tiempo = (new Date()).getTime();
+             //Fijamos el nº de segundos de espera para finalizar sesión
+             req.session.tiempoEspera  = segundos;
+         }else{
+             //Si el tiempo de espera se ha sobrepasado
+             if((new Date()).getTime() - req.session.tiempo > miliSegundos){
+                //Borramos el usuario
+                delete req.session.user;
+                //Borramos la marca de tiempo
+                delete req.session.tiempo;
+                res.redirect('/login');
+                return;
+             //Si no se ha sobrepasado el tiempo de espera
+             }else{
+                req.session.tiempo = (new Date()).getTime();
+                req.session.tiempoEspera = segundos;
+             }
+        }
+    }
+    next();
+  };
